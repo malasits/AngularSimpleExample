@@ -1,0 +1,72 @@
+<!Doctype Html>
+<html data-ng-app="myApp" ng-controller="myCTRL">
+	<head>
+		<title>Little angularJs</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+	</head>
+	<body>
+	
+		<label>Text: <label>
+		<input type="text" data-ng-model="name" placeholder="Enter some text"/>
+		<p>{{name}}</p>
+		
+		<label>5 and </label>
+		<input type="number" data-ng-model="number"/>
+		<label> is equals to : </label>
+		<label>{{5 + number}}</label>
+		
+		
+		<!--Color biding-->
+		<br />
+		<br />
+		<label>Color: </label>
+		<input type="text" data-ng-model="color">
+		<div style="width:200px;height:50px;background-color:{{color}};"></div>
+		
+		
+		<!--Object biding-->
+		<br />
+		<br />
+		<div ng-init=" person={firstName:'John',lastName:'Doe'}"></div>
+		<p ng-bind="person.lastName"></p>
+		
+		<script>
+			var app = angular.module("myApp", []); //Angular applikáció deffiniállása 
+			
+			//Kontrollerek deffiniálása
+			app.controller("myCTRL", function($scope){
+				$scope.firstName = "Johny";
+				$scope.lastName = "Waker";
+			});
+			app.controller("secontCTRL", function($scope, $location, xService){ // Szervizek csatlakozása a kontrollerhez
+				$scope.firstName = "Johny";
+				$scope.lastName = "Blaze";
+				
+				$scope.url = $location.absUrl();
+				
+				$scope.myS = xService.myFunc;
+			});
+			
+			
+			//Saját szervíz készítése
+			app.service('xService', function(){
+				this.myFunc = function(x){
+					return x;
+				}
+			});
+		</script>
+		
+		<div>
+			<div ng-controller="myCTRL">
+				{{firstName + " " + lastName}}
+			</div>
+			<div ng-controller="secontCTRL">
+				{{firstName + " " + lastName | uppercase}}
+				<p>{{url}}</p>
+				<p>{{myS(23)}}</p>
+			</div>
+		</div>
+		
+	</body>
+</html>
